@@ -7,8 +7,9 @@ import android.view.WindowManager;
 import android.widget.TextView;
 
 import com.example.androidsensorplugin.AndroidPlugin;
+import com.example.androidsensorplugin.SensorObserver;
 
-public class MainActivity extends AppCompatActivity implements AndroidPlugin.SensorObserver{
+public class MainActivity extends AppCompatActivity implements SensorObserver {
 
     private AndroidPlugin mAndroidPlugin;
 
@@ -107,7 +108,6 @@ public class MainActivity extends AppCompatActivity implements AndroidPlugin.Sen
     @Override
     public void pressureUpdate() {
         txtPressure.setText( mAndroidPlugin.getPressure() [0] + " hPa");
-
     }
 
     @Override

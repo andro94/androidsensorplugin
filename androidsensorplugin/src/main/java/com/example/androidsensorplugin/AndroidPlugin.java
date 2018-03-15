@@ -37,8 +37,7 @@ public class AndroidPlugin implements SensorEventListener {
     private Sensor mPressure;
     private Sensor mHumidity;
 
-    //declaro los valores
-    //Estos son los del acelerometro
+    // Orientacion
     private float mAzimut;
     private float mPitch;
     private float mRoll;
@@ -159,9 +158,6 @@ public class AndroidPlugin implements SensorEventListener {
         mPitch = mOrientationValues[1];
         mRoll = mOrientationValues[2];
         notifyObservers(TYPE_ORIENTATION);
-
-
-
     }
 
     @Override
@@ -187,6 +183,7 @@ public class AndroidPlugin implements SensorEventListener {
 
     public float[] getHumidity() {return mHumidityValues; }
 
+    //para trabajar la orientacion en unity
     public float getAzimut() {
         return mAzimut;
     }
@@ -200,6 +197,10 @@ public class AndroidPlugin implements SensorEventListener {
     }
 
     public float[] getOrientation() { return mOrientationValues; }
+
+    public String getPluginName(){
+        return "Android All Sensors Plugin";
+    }
 
 
     public void registerObserver(SensorObserver observer){
@@ -253,19 +254,6 @@ public class AndroidPlugin implements SensorEventListener {
         }
         
 
-    }
-
-    public interface SensorObserver {
-        // Funcion de actualizacion por cada sensor
-        void accelerometerUpdate();
-        void magneticUpdate();
-        void uncalibratedMagneticUpdate();
-        void lightUpdate();
-        void proximityUpdate();
-        void temperatureUpdate();
-        void pressureUpdate();
-        void humidityUpdate();
-        void orientationUpdate();
     }
 
     public double getSENSITIVITY_THRESHOLD() {
