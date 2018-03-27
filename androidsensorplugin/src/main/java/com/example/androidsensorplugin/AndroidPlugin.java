@@ -149,6 +149,7 @@ public class AndroidPlugin implements SensorEventListener {
             notifyObservers(Sensor.TYPE_RELATIVE_HUMIDITY);
         }
 
+        //para Orientation Correction
         if ((mGravity == null) || (mMagneticValues == null))
             return;
 
@@ -158,7 +159,22 @@ public class AndroidPlugin implements SensorEventListener {
         mPitch = mOrientationValues[1];
         mRoll = mOrientationValues[2];
         notifyObservers(TYPE_ORIENTATION);
+
+//        //para corregir la informacion 2
+//        if (mGravity != null && mMagneticValues != null){
+//            float R [] = new float[9];
+//            float I [] = new float[9];
+//            boolean success = SensorManager.getRotationMatrix(R, I, mGravity, mMagneticValues);
+//            if (success){
+//                float orientation [] = new float[3];
+//                SensorManager.getOrientation(R, orientation);
+//                azimut = orientation[0];
+//
+//            }
+
     }
+
+
 
     @Override
     public void onAccuracyChanged(Sensor sensor, int accuracy) {
