@@ -16,8 +16,17 @@ public class OrientationCorrection {
     private float pitch = 0;
     private float roll = 0;
 
+    private float azimuthOriginal = 0;
+    private float pitchOriginal = 0;
+    private float rollOriginal = 0;
+
+    float orientationValues[];
+    float orientationValuesOriginal[];
+
     public OrientationCorrection(Display display) {
         this.mDisplay = display;
+        orientationValues = new float[3];
+        orientationValuesOriginal = new float[3];
     }
 
     public float[] getOrientationValues(float[] accelerometerValues, float[] magnetometerValues) {
@@ -57,17 +66,30 @@ public class OrientationCorrection {
 
 
         //obtener los ángulos de orientación de la matriz de rotación, usar la nueva matrix
-        float orientationValues[] = new float[3];
+
         if (rotationOK) {
             SensorManager.getOrientation(rotationMatrixAdjusted, orientationValues);
+            SensorManager.getOrientation(rotationMatrix, orientationValuesOriginal);
         }
 
         //contener cada componente de la matriz orientationValues
         azimuth = orientationValues[0];
         pitch = orientationValues[1];
         roll = orientationValues[2];
+
+        azimuthOriginal = orientationValuesOriginal[0];
+        pitchOriginal = orientationValuesOriginal[1];
+        rollOriginal = orientationValuesOriginal[2];
         
         return orientationValues;
+    }
+
+    public float[] getOrientationValues() {
+        return orientationValues;
+    }
+
+    public float[] getOrientationValuesOriginal() {
+        return orientationValuesOriginal;
     }
 
     public float getAzimuth() {
@@ -80,5 +102,17 @@ public class OrientationCorrection {
 
     public float getRoll() {
         return roll;
+    }
+
+    public float getAzimuthOriginal() {
+        return azimuthOriginal;
+    }
+
+    public float getPitchOriginal() {
+        return pitchOriginal;
+    }
+
+    public float getRollOriginal() {
+        return rollOriginal;
     }
 }

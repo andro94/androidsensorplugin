@@ -24,7 +24,11 @@ public class MainActivity extends AppCompatActivity implements SensorObserver {
     private TextView txtTemperature;
     private TextView txtPressure;
     private TextView txtHumidity;
-    private TextView txtOrientation;
+    private TextView txtOrientationOriginal;
+    private TextView txtOrientationV1;
+    private TextView txtRotation;
+    private TextView txtGameRotation;
+    private TextView txtGeomagneticRotation;
 
 
 
@@ -40,7 +44,11 @@ public class MainActivity extends AppCompatActivity implements SensorObserver {
         txtTemperature = (TextView) findViewById(R.id.txtTemperature);
         txtPressure = (TextView) findViewById(R.id.txtPressure);
         txtHumidity = (TextView) findViewById(R.id.txtHumidity);
-        txtOrientation = (TextView) findViewById(R.id.txtOrientation);
+        txtOrientationOriginal = (TextView) findViewById(R.id.txtOrientationOriginal);
+        txtOrientationV1 = (TextView) findViewById(R.id.txtOrientationV1);
+        txtRotation = (TextView) findViewById(R.id.txtRotation);
+        txtGameRotation = (TextView) findViewById(R.id.txtGameRotation);
+        txtGeomagneticRotation = (TextView) findViewById(R.id.txtGeomagneticRotation);
 
         //obtener una referencia al administrador de ventanas y luego obtener la pantalla predeterminada. Utilizar la pantalla para obtener la rotación en OnSensorChanged ()
         WindowManager wm = (WindowManager) getSystemService (WINDOW_SERVICE);
@@ -71,8 +79,8 @@ public class MainActivity extends AppCompatActivity implements SensorObserver {
         float roll = mAndroidPlugin.getRoll();
 //        float[] quat = mAndroidPlugin.getQuaternion();
 
-        txtAccelerometer.setText(mAndroidPlugin.getGravity()[0] + " m/s2 "
-                + mAndroidPlugin.getGravity()[1] + " m/s2 "
+        txtAccelerometer.setText(mAndroidPlugin.getGravity()[0] + " m/s2\n"
+                + mAndroidPlugin.getGravity()[1] + " m/s2\n"
                 + mAndroidPlugin.getGravity()[2] + " m/s2 ");
     }
 
@@ -118,9 +126,34 @@ public class MainActivity extends AppCompatActivity implements SensorObserver {
 
     @Override
     public void orientationUpdate() {
-        txtOrientation.setText("azimut: " + mAndroidPlugin.getAzimut() + "\n" +
+        txtOrientationOriginal.setText("azimut: " + mAndroidPlugin.getAzimutOriginal() + "\n" +
+                "pitch: " + mAndroidPlugin.getPitchOriginal() + "\n" +
+                "roll: " + mAndroidPlugin.getRollOriginal());
+
+        txtOrientationV1.setText("azimut: " + mAndroidPlugin.getAzimut() + "\n" +
                 "pitch: " + mAndroidPlugin.getPitch() + "\n" +
                 "roll: " + mAndroidPlugin.getRoll());
+    }
+
+    @Override
+    public void rotationVectorUpdate() {
+        txtRotation.setText("azimut: " + mAndroidPlugin.getAzimutRotation() + "\n" +
+                "pitch: " + mAndroidPlugin.getPitchRotation() + "\n" +
+                "roll: " + mAndroidPlugin.getRollRotation());
+    }
+
+    @Override
+    public void gameRotationUpdate() {
+        txtGameRotation.setText("azimut: " + mAndroidPlugin.getAzimutGameRotation() + "\n" +
+                "pitch: " + mAndroidPlugin.getPitchGameRotation() + "\n" +
+                "roll: " + mAndroidPlugin.getRollGameRotation());
+    }
+
+    @Override
+    public void geomagneticRotationUpdate() {
+        txtGeomagneticRotation.setText("azimut: " + mAndroidPlugin.getAzimutGeomagnetic() + "\n" +
+                "pitch: " + mAndroidPlugin.getPitchGeomagnetic() + "\n" +
+                "roll: " + mAndroidPlugin.getRollGeomagnetic());
     }
 
 

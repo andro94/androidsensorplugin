@@ -15,4 +15,7 @@ public interface SensorObserver {
     void pressureUpdate();
     void humidityUpdate();
     void orientationUpdate();
+    void rotationVectorUpdate();
+    void gameRotationUpdate();
+    void geomagneticRotationUpdate();
 }

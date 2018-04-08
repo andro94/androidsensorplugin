@@ -36,11 +36,28 @@ public class AndroidPlugin implements SensorEventListener {
     private Sensor mTemperature;
     private Sensor mPressure;
     private Sensor mHumidity;
+    private Sensor mRotationVector;
+    private Sensor mGameRotation;
+    private Sensor mGeomagneticRotation;
 
     // Orientacion
     private float mAzimut;
     private float mPitch;
     private float mRoll;
+    private float mAzimutOriginal;
+    private float mPitchOriginal;
+    private float mRollOriginal;
+    private float mAzimutRotation;
+    private float mPitchRotation;
+    private float mRollRotation;
+    private float mAzimutGameRotation;
+    private float mPitchGameRotation;
+    private float mRollGameRotation;
+    private float mAzimutGeomagnetic;
+    private float mPitchGeomagnetic;
+    private float mRollGeomagnetic;
+    float[] rotMat;
+    float[] vals;
 
 
     private float[] mGravity;
@@ -64,6 +81,8 @@ public class AndroidPlugin implements SensorEventListener {
         mInstance = this;
         mObservers = new ArrayList<>();
         SENSITIVITY_THRESHOLD = 2;
+        rotMat = new float[9];
+        vals = new float[3];
     }
 
     public static AndroidPlugin getInstance(){
@@ -91,6 +110,9 @@ public class AndroidPlugin implements SensorEventListener {
         mTemperature = mSensorManager.getDefaultSensor(Sensor.TYPE_AMBIENT_TEMPERATURE);
         mPressure = mSensorManager.getDefaultSensor(Sensor.TYPE_PRESSURE);
         mHumidity = mSensorManager.getDefaultSensor(Sensor.TYPE_RELATIVE_HUMIDITY);
+        mRotationVector = mSensorManager.getDefaultSensor(Sensor.TYPE_ROTATION_VECTOR);
+        mRotationVector = mSensorManager.getDefaultSensor(Sensor.TYPE_GAME_ROTATION_VECTOR);
+        mRotationVector = mSensorManager.getDefaultSensor(Sensor.TYPE_GEOMAGNETIC_ROTATION_VECTOR);
 
         // una variable por cada sensor
 
@@ -103,6 +125,9 @@ public class AndroidPlugin implements SensorEventListener {
         mSensorManager.registerListener(this, mTemperature, SensorManager.SENSOR_DELAY_NORMAL);
         mSensorManager.registerListener(this, mPressure, SensorManager.SENSOR_DELAY_NORMAL);
         mSensorManager.registerListener(this, mHumidity, SensorManager.SENSOR_DELAY_NORMAL);
+        mSensorManager.registerListener(this, mRotationVector, SensorManager.SENSOR_DELAY_NORMAL);
+        mSensorManager.registerListener(this, mGameRotation, SensorManager.SENSOR_DELAY_NORMAL);
+        mSensorManager.registerListener(this, mGeomagneticRotation, SensorManager.SENSOR_DELAY_NORMAL);
 
         // No olvidar registrar cada sensor
 
@@ -148,6 +173,30 @@ public class AndroidPlugin implements SensorEventListener {
             mHumidityValues = event.values;
             notifyObservers(Sensor.TYPE_RELATIVE_HUMIDITY);
         }
+        if(event.sensor.getType() == Sensor.TYPE_ROTATION_VECTOR){
+            SensorManager.getRotationMatrixFromVector(rotMat, event.values);
+            SensorManager.getOrientation(rotMat, vals);
+            mAzimutRotation = vals[0];
+            mPitchRotation = vals[1];
+            mRollRotation = vals[2];
+            notifyObservers(Sensor.TYPE_ROTATION_VECTOR);
+        }
+        if(event.sensor.getType() == Sensor.TYPE_GAME_ROTATION_VECTOR){
+            SensorManager.getRotationMatrixFromVector(rotMat, event.values);
+            SensorManager.getOrientation(rotMat, vals);
+            mAzimutGameRotation = vals[0];
+            mPitchGameRotation = vals[1];
+            mRollGameRotation = vals[2];
+            notifyObservers(Sensor.TYPE_GAME_ROTATION_VECTOR);
+        }
+        if(event.sensor.getType() == Sensor.TYPE_GEOMAGNETIC_ROTATION_VECTOR){
+            SensorManager.getRotationMatrixFromVector(rotMat, event.values);
+            SensorManager.getOrientation(rotMat, vals);
+            mAzimutGeomagnetic = vals[0];
+            mPitchGeomagnetic = vals[1];
+            mRollGeomagnetic = vals[2];
+            notifyObservers(Sensor.TYPE_GEOMAGNETIC_ROTATION_VECTOR);
+        }
 
         //para Orientation Correction
         if ((mGravity == null) || (mMagneticValues == null))
@@ -155,26 +204,18 @@ public class AndroidPlugin implements SensorEventListener {
 
         // Updating orientation information
         mOrientationValues = mOrientationCorrection.getOrientationValues(mGravity, mMagneticValues);
-        mAzimut = mOrientationValues[0]; // orientation contains: azimut, pitch and roll
+        // orientation contains: azimut, pitch and roll
+        mAzimut = mOrientationValues[0];
         mPitch = mOrientationValues[1];
         mRoll = mOrientationValues[2];
+
+        float[] orientationOriginal = mOrientationCorrection.getOrientationValuesOriginal();
+        mAzimutOriginal = orientationOriginal[0];
+        mPitchOriginal = orientationOriginal[1];
+        mRollOriginal = orientationOriginal[2];
+
         notifyObservers(TYPE_ORIENTATION);
-
-//        //para corregir la informacion 2
-//        if (mGravity != null && mMagneticValues != null){
-//            float R [] = new float[9];
-//            float I [] = new float[9];
-//            boolean success = SensorManager.getRotationMatrix(R, I, mGravity, mMagneticValues);
-//            if (success){
-//                float orientation [] = new float[3];
-//                SensorManager.getOrientation(R, orientation);
-//                azimut = orientation[0];
-//
-//            }
-
     }
-
-
 
     @Override
     public void onAccuracyChanged(Sensor sensor, int accuracy) {
@@ -210,6 +251,54 @@ public class AndroidPlugin implements SensorEventListener {
 
     public float getRoll() {
         return mRoll;
+    }
+
+    public float getAzimutRotation() {
+        return mAzimutRotation;
+    }
+
+    public float getPitchRotation() {
+        return mPitchRotation;
+    }
+
+    public float getRollRotation() {
+        return mRollRotation;
+    }
+
+    public float getAzimutOriginal() {
+        return mAzimutOriginal;
+    }
+
+    public float getPitchOriginal() {
+        return mPitchOriginal;
+    }
+
+    public float getRollOriginal() {
+        return mRollOriginal;
+    }
+
+    public float getAzimutGameRotation() {
+        return mAzimutGameRotation;
+    }
+
+    public float getPitchGameRotation() {
+        return mPitchGameRotation;
+    }
+
+    public float getRollGameRotation() {
+        return mRollGameRotation;
+    }
+
+    public float getAzimutGeomagnetic() {
+        return mAzimutGeomagnetic;
+    }
+
+    public float getPitchGeomagnetic() {
+        return mPitchGeomagnetic;
+    }
+
+    public float getRollGeomagnetic() {
+        return mRollGeomagnetic;
     }
 
     public float[] getOrientation() { return mOrientationValues; }
@@ -266,6 +355,18 @@ public class AndroidPlugin implements SensorEventListener {
         } else if (sensorType == TYPE_ORIENTATION){
             for (SensorObserver observer : mObservers){
                 observer.orientationUpdate();
+            }
+        } else if (sensorType == Sensor.TYPE_ROTATION_VECTOR){
+            for (SensorObserver observer : mObservers){
+                observer.rotationVectorUpdate();
+            }
+        } else if (sensorType == Sensor.TYPE_GAME_ROTATION_VECTOR){
+            for (SensorObserver observer : mObservers){
+                observer.gameRotationUpdate();
+            }
+        } else if (sensorType == Sensor.TYPE_GEOMAGNETIC_ROTATION_VECTOR){
+            for (SensorObserver observer : mObservers){
+                observer.geomagneticRotationUpdate();
             }
         }
         

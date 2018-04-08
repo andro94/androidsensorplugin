@@ -19,6 +19,44 @@
            >
 
             <TextView
+                android:id="@+id/labelOrientation"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Correccion de la Orientacion" />
+
+            <TextView
+                android:id="@+id/txtOrientationOriginal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Original Orientation" />
+
+            <TextView
+                android:id="@+id/txtOrientationV1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Orientation V1" />
+
+            <TextView
+                android:id="@+id/txtGameRotation"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Game Rotation" />
+
+            <TextView
+                android:id="@+id/txtGeomagneticRotation"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Geomagnetic Rotation" />
+
+
+            <TextView
+                android:id="@+id/txtRotation"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Orientation Rotation"
+                android:layout_marginBottom="@dimen/activity_vertical_margin"/>
+
+            <TextView
                 android:id="@+id/labelAccelerometer"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -123,18 +161,7 @@
                 android:layout_marginBottom="@dimen/activity_vertical_margin"/>
 
 
-            <TextView
-                android:id="@+id/labelOrientation"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Correccion de la Orientacion" />
 
-            <TextView
-                android:id="@+id/txtOrientation"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Orientation values"
-                android:layout_marginBottom="@dimen/activity_vertical_margin"/>
         </LinearLayout>
     </ScrollView>
 </LinearLayout>
