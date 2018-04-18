@@ -126,32 +126,32 @@ public class MainActivity extends AppCompatActivity implements SensorObserver {
 
     @Override
     public void orientationUpdate() {
-        txtOrientationOriginal.setText("azimut: " + mAndroidPlugin.getAzimutOriginal() + "\n" +
+        txtOrientationOriginal.setText("Orientation original:\nazimut: " + mAndroidPlugin.getAzimutOriginal() + "\n" +
                 "pitch: " + mAndroidPlugin.getPitchOriginal() + "\n" +
                 "roll: " + mAndroidPlugin.getRollOriginal());
 
-        txtOrientationV1.setText("azimut: " + mAndroidPlugin.getAzimut() + "\n" +
+        txtOrientationV1.setText("Orientation corrected:\nazimut: " + mAndroidPlugin.getAzimut() + "\n" +
                 "pitch: " + mAndroidPlugin.getPitch() + "\n" +
                 "roll: " + mAndroidPlugin.getRoll());
     }
 
     @Override
     public void rotationVectorUpdate() {
-        txtRotation.setText("azimut: " + mAndroidPlugin.getAzimutRotation() + "\n" +
+        txtRotation.setText("Rotation Vector\nazimut: " + mAndroidPlugin.getAzimutRotation() + "\n" +
                 "pitch: " + mAndroidPlugin.getPitchRotation() + "\n" +
                 "roll: " + mAndroidPlugin.getRollRotation());
     }
 
     @Override
     public void gameRotationUpdate() {
-        txtGameRotation.setText("azimut: " + mAndroidPlugin.getAzimutGameRotation() + "\n" +
+        txtGameRotation.setText("Game Rotation:\nazimut: " + mAndroidPlugin.getAzimutGameRotation() + "\n" +
                 "pitch: " + mAndroidPlugin.getPitchGameRotation() + "\n" +
                 "roll: " + mAndroidPlugin.getRollGameRotation());
     }
 
     @Override
     public void geomagneticRotationUpdate() {
-        txtGeomagneticRotation.setText("azimut: " + mAndroidPlugin.getAzimutGeomagnetic() + "\n" +
+        txtGeomagneticRotation.setText("Geomagnetic Rotation:\nazimut: " + mAndroidPlugin.getAzimutGeomagnetic() + "\n" +
                 "pitch: " + mAndroidPlugin.getPitchGeomagnetic() + "\n" +
                 "roll: " + mAndroidPlugin.getRollGeomagnetic());
     }
