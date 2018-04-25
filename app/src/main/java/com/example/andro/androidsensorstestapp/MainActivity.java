@@ -24,6 +24,7 @@ public class MainActivity extends AppCompatActivity implements SensorObserver {
     private TextView txtTemperature;
     private TextView txtPressure;
     private TextView txtHumidity;
+    private TextView txtQuaternion;
     private TextView txtOrientationOriginal;
     private TextView txtOrientationV1;
     private TextView txtRotation;
@@ -44,6 +45,7 @@ public class MainActivity extends AppCompatActivity implements SensorObserver {
         txtTemperature = (TextView) findViewById(R.id.txtTemperature);
         txtPressure = (TextView) findViewById(R.id.txtPressure);
         txtHumidity = (TextView) findViewById(R.id.txtHumidity);
+        txtQuaternion = (TextView) findViewById(R.id.txtQuaternion);
         txtOrientationOriginal = (TextView) findViewById(R.id.txtOrientationOriginal);
         txtOrientationV1 = (TextView) findViewById(R.id.txtOrientationV1);
         txtRotation = (TextView) findViewById(R.id.txtRotation);
@@ -133,6 +135,10 @@ public class MainActivity extends AppCompatActivity implements SensorObserver {
         txtOrientationV1.setText("Orientation corrected:\nazimut: " + mAndroidPlugin.getAzimut() + "\n" +
                 "pitch: " + mAndroidPlugin.getPitch() + "\n" +
                 "roll: " + mAndroidPlugin.getRoll());
+
+    txtQuaternion.setText("Quaternion from Rmatrix:\n(x,y,z,w)\n("
+                + mAndroidPlugin.getQuatX() + "," + mAndroidPlugin.getQuatY() + ","
+                + mAndroidPlugin.getQuatY() + "," +mAndroidPlugin.getQuatW() + ")");
     }
 
     @Override

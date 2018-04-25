@@ -70,7 +70,7 @@ public class AndroidPlugin implements SensorEventListener {
     private float[] mHumidityValues;
 
     private float[] mOrientationValues;
-//    private float[] mQuaternionValues;
+    private float[] mQuaternionValues;
 
     // Clase especializada en corregir la informacion de orientacion
     private OrientationCorrection mOrientationCorrection;
@@ -213,6 +213,8 @@ public class AndroidPlugin implements SensorEventListener {
         mAzimutOriginal = orientationOriginal[0];
         mPitchOriginal = orientationOriginal[1];
         mRollOriginal = orientationOriginal[2];
+
+        mQuaternionValues = mOrientationCorrection.getQuaternionFromRotationMatrix();
 
         notifyObservers(TYPE_ORIENTATION);
     }
@@ -377,27 +379,25 @@ public class AndroidPlugin implements SensorEventListener {
         return SENSITIVITY_THRESHOLD;
     }
 
-    //    public float[] getQuaternion(){
-//        return mQuaternion;
-//    }
-//
-//    public float getQuatX(){
-//        return mQuaternion[1];
-//    }
-//
-//    public float getQuatY(){
-//        return mQuaternion[2];
-//    }
-//
-//    public float getQuatZ(){
-//        return mQuaternion[3];
-//    }
-//
-//    public float getQuatW(){
-//        return mQuaternion[0];
-//    }
-//
-//    public static String HelloWorld(){
-//        return "Hello World first unity android plugin !";
-//    }
+    public float[] getQuaternion(){
+        return mQuaternionValues;
+    }
+
+    public float getQuatX(){
+        return mQuaternionValues[0];
+    }
+
+    public float getQuatY(){
+        return mQuaternionValues[1];
+    }
+
+    public float getQuatZ(){
+        return mQuaternionValues[2];
+    }
+
+    public float getQuatW(){
+        return mQuaternionValues[3];
+    }
+
+
 }
